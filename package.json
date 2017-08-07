@@ -6,7 +6,9 @@
   "dependencies": {
     "cli-color": "^1.2.0",
     "command-line-args": "^4.0.6",
-    "node-fetch": "^1.7.1"
+    "moment": "^2.18.1",
+    "node-fetch": "^1.7.1",
+    "v1sdk": "^2.3.0"
   },
   "engines": {
     "node": "8.x.x"
