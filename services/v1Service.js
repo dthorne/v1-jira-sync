@@ -21,11 +21,19 @@ const query = async (v1Token, query) => {
   })).json();
 } 
 
-const getIterationBugStoryId = async (v1Token, nameString) => {
+const getIterationBugStoryId = async (v1Token, teamName) => {
   try {
     const iterationDate = await getCurrentIterationDate(v1Token, moment())
-    var story = await query(v1Token, {from: "Story", where: {'Name': `${iterationDate} ${nameString}`}});
-    return story[0][0]._oid.split(':')[1];
+    var stories = await query(v1Token, {
+      from: "Story", 
+      select: ['Name', 'Team.Name'],
+      find: iterationDate,
+      findin: ["Name"],
+      where: {
+        'Team.Name': teamName
+      }
+    });
+    return stories[0].find(story => story.Name.includes('Defects'))._oid;
   } catch(ex) {
     throw(ex);
   }
@@ -65,6 +73,8 @@ const getCurrentIterationDate = async (v1Token, today) => {
 
   return moment(theTimebox.endDate).subtract(1, 'days').format('YYYYMMDD');
 }
+
+const getNewTask
 
 module.exports = {
   getStory,
